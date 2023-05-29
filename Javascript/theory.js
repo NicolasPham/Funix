@@ -1,4 +1,4 @@
-// ========= Callback function =========
+// ========= CALLBACK function =========
 
 function upperWord(str) {
   const [first, ...others] = str.split(" ");
@@ -13,6 +13,7 @@ function transformer(str, fn) {
 
 transformer("Javascript is the best", upperWord);
 
+/////////////////////////////////////////////////
 // ========= Function return a function =========
 //option 1
 function greeting(greeting) {
@@ -37,3 +38,12 @@ greet2("Good morning")("Nicolas");
 
 //option 3
 const greet3 = (greeting) => (name) => console.log(`${greeting} ${name}`);
+
+/////////////////////////////////////////////////
+// ========= ARRAY METHODS =========
+// Difference between SPICE and SLICE:
+// SPLICE: chnages the orginial array while SLICE: does not
+// REVERSE: reserve the array (mutate the orignial array)
+// CONCAT:
+const newConcatArray = array1.concat(array2);
+const newConcatArray2 = [...array1, ...array2];
