@@ -1,4 +1,4 @@
-// ========= CALLBACK function =========
+// ========= Callback function =========
 
 function upperWord(str) {
   const [first, ...others] = str.split(" ");
@@ -13,7 +13,6 @@ function transformer(str, fn) {
 
 transformer("Javascript is the best", upperWord);
 
-/////////////////////////////////////////////////
 // ========= Function return a function =========
 //option 1
 function greeting(greeting) {
@@ -38,6 +37,71 @@ greet2("Good morning")("Nicolas");
 
 //option 3
 const greet3 = (greeting) => (name) => console.log(`${greeting} ${name}`);
+
+// ========= FOREACH =========
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// for (let movement of movements) {
+for (let [i, movement] of movements.entries()) {
+  console.log(`Index: ${i}`);
+  if (movement >= 0) {
+    console.log(`You deposited $${movement}`);
+  } else {
+    console.log(`You withdraw $${Math.abs(movement)}`);
+  }
+}
+
+movements.forEach(function (movement, index, array) {
+  console.log(`Index: ${index}`);
+  if (movement >= 0) {
+    console.log(`You deposited $${movement}`);
+  } else {
+    console.log(`You withdraw $${Math.abs(movement)}`);
+  }
+  console.log(array);
+});
+
+// ========= FILTER =========
+const deposit = movements.filter(function (mov) {
+  return mov > 0;
+});
+
+console.log(deposit);
+
+// ========= REDUCE =========
+const balance = movements.reduce(function (
+  accumulator,
+  currentValue,
+  currentIndex,
+  array
+) {
+  console.log(`Iteration ${currentIndex}: ${accumulator}`);
+  return accumulator + currentValue;
+},
+500); //intial value of accumulator = 500, default = 0
+
+console.log(balance);
+
+const maxValue = movements.reduce((acc, current) => {
+  if (current > acc) return current;
+  else return acc;
+}, movements[0]);
+
+console.log(maxValue);
+// ========= CALLBACK function =========
+
+function upperWord(str) {
+  const [first, ...others] = str.split(" ");
+  return [first.toUpperCase(), ...others].join(" ");
+}
+
+function transformer(str, fn) {
+  console.log(`Orginial string: ${str}`);
+  console.log(`Transformed string: ${fn(str)}`);
+  console.log(`By: ${fn.name}`);
+}
+
+transformer("Javascript is the best", upperWord);
 
 /////////////////////////////////////////////////
 // ========= ARRAY METHODS =========
