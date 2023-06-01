@@ -34,3 +34,20 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+//////////////////////////////////////////////////
+// Smooth Scrolling
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+  const s1coords = section1.getBoundingClientRect();
+  console.log(s1coords.y);
+  console.log(
+    'Height / Width viewport: ',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth
+  );
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+}); //add window.pageYOffset to make it absolute to the top instead of relative

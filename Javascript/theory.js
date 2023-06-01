@@ -97,3 +97,74 @@ const maxValue = movements.reduce((acc, current) => {
 }, movements[0]);
 
 console.log(maxValue);
+
+////////////////////////////////////////////////////////////////////////
+// ================= DOM ========================================
+//Selecting =============================================
+console.log(document.documentElement);
+console.log(document.head);
+console.log(document.body);
+
+//Creating =============================================
+const message = document.createElement("div");
+message.classList.add("cookie-message");
+message.innerHTML =
+  "We use cookies for improved functionality and analytics <button class='btn btn--close-cookie'>Got it!</button> ";
+
+//adding element into header
+const header = document.querySelector(".header");
+header.prepend(message); //add as first child
+header.append(message); //add as last child
+//only able to add once, cannot be first child and last child at the same time
+header.append(message.cloneNode(true)); //add a copy of element for multiple places
+//cloneNode(true) to copy all the children inside the node
+header.before(message); //add elemnt before the header as an sibling, also have "after"
+
+//deleting =============================================
+document
+  .querySelector(".btn--close-cookie")
+  .addEventListener("click", function () {
+    message.remove();
+  });
+
+//Styles =============================================
+message.style.backgroundColor = "#37383d";
+message.style.width = "120%";
+//return the inline-style
+//to retreive the real styles that displayed on the page
+console.log(getComputedStyle(message));
+console.log(getComputedStyle(message).height);
+
+//in order to change the height, since it's a string display as 43.55666px
+//we have to take the number part out of the string as "NUmber.parseFloat()"
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + "px";
+
+//to modify variables in CSS from :root{} which is equivalent to document in JS
+document.documentElement.style.setProperty("--color-primary", "red");
+
+//Atributes =============================================
+const logo = document.querySelector(".nav__logo");
+console.log(logo.alt);
+console.log(logo.src); //absolute url
+console.log(logo.getAttribute("src")); //relative url
+//we can also use getAttribute and setAttribute
+logo.setAttribute("alt", "logo of bankist");
+//data attribute
+// <img data-version-number = '3.0' />
+console.log(logo.dataset.versionNumber);
+
+//Atributes =============================================
+console.log(
+  "Height / Width viewport: ",
+  document.documentElement.clientHeight,
+  document.documentElement.clientWidth
+);
+
+//Smooth Scrolling
+window.scrollTo({
+  left: s1coords.left + window.pageXOffset,
+  top: s1coords.y + window.pageYOffset,
+  behavior: "smooth",
+}); //ols style
+section1.scrollIntoView({ behavior: "smooth" }); //new style
