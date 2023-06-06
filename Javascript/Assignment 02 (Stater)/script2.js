@@ -7,3 +7,6 @@ const sidebar = document.querySelector("#sidebar");
 sidebar.addEventListener("click", function () {
   sidebar.classList.toggle("active");
 });
+
+//Get and Save Item to storage
+// In file script.js
