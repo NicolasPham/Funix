@@ -1,5 +1,7 @@
 "use strict";
 
-function saveToStorage(key, value) {
+export const saveToStorage = function (key, value) {
   localStorage.setItem(key, value);
-}
+};
+
+saveToStorage("key", "value");
