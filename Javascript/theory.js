@@ -168,3 +168,50 @@ window.scrollTo({
   behavior: "smooth",
 }); //ols style
 section1.scrollIntoView({ behavior: "smooth" }); //new style
+
+//Travesing =============================================
+const h1 = document.querySelector("h1");
+//Going downward: child
+console.log(h1.querySelectorAll(".highlight"));
+console.log(h1.children);
+h1.firstElementChild.style.color = "white";
+//Going upward: parents
+console.log(h1.parentElement);
+h1.closest(".header").style.background = "var(--gradient-secondary)";
+//upward then backward for all siblings
+h1.parentElement.children;
+
+//InterSectionObserver =============================================
+const headerSection = document.querySelector(".header");
+const stickyNav = function (entries, observer) {
+  if (!entries[0].isIntersecting) nav.classList.add("sticky");
+  else nav.classList.remove("sticky");
+};
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+});
+headerObserver.observe(headerSection);
+
+//whenever section1 contribute more than 10% (0.1) of the viewport, obsCallback will trigger
+//threshold number: obsCallback will be triggerd as soon as 'section1' have
+// 0 : 0% (right when it enter and leave)
+// 1: 100% (only when it is in the viewport 100%, will be impossible if the section is bigger than the viewport
+
+//Reveal Sections =============================================
+const allSections = document.querySelectorAll(".section");
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove("section--hidden");
+  observer.unobserve(entry.target); //unobserve after we done the work
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.2,
+});
+allSections.forEach((section) => {
+  section.classList.add("section--hidden");
+  sectionObserver.observe(section);
+});
