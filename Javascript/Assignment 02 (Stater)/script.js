@@ -15,9 +15,11 @@ const dewormedInput = document.getElementById("input-dewormed");
 const sterilizedInput = document.getElementById("input-sterilized");
 
 const healthyBtn = document.getElementById("healthy-btn");
-const bmiBtn = document.getElementById("bmi-btn");
+// const bmiBtn = document.getElementById("bmi-btn");
 
-const petArr = [
+
+
+const petArrDefault = [
   {
     age: "12",
     breed: "Tabby",
@@ -65,6 +67,24 @@ const petArr = [
   },
 ];
 
+console.log(localStorage.getItem('petData'));
+
+// Get inital data
+function getData (key) {
+  if((localStorage.getItem(key)) == null || localStorage.getItem('petData').length <= 2) {
+    //check if there is any value in local storage
+    // 2 stand for brackets []
+    return petArrDefault
+  }
+  else return getFromStorage(key) ;
+}
+
+const petArr = getData('petData')
+
+
+// saveToStorage('petData', JSON.stringify(petArrDefault))
+
+
 let healthyCheck = false;
 let healthyPets = petArr;
 let isUnique = false;
@@ -73,7 +93,7 @@ renderTable();
 //Assign function ==================================================
 submitBtn.addEventListener("click", handleSubmit);
 healthyBtn.addEventListener("click", handleHealthyPets);
-bmiBtn.addEventListener("click", calculateBMI);
+// bmiBtn.addEventListener("click", calculateBMI);
 
 //define function ==================================================
 //submit:
@@ -107,6 +127,8 @@ function handleSubmit(e) {
     renderTable();
     clearInput();
   }
+
+  saveToStorage('petData', JSON.stringify(petArr))
 }
 
 //validate data
@@ -178,6 +200,8 @@ function renderTable() {
     let pet = renderPets[i];
     //create an Element to render into the table
     const addRow = document.createElement("tr");
+    addRow.classList.add('pet__data')
+  
     addRow.innerHTML = `<th scope="row">${pet.id}</th>
   <td>${pet.name}</td>
   <td>${pet.age}</td>
@@ -207,6 +231,7 @@ function deletePet(petId) {
   const petIndex = (pet) => pet.id == petId;
   const index = petArr.findIndex(petIndex);
   petArr.splice(index, 1);
+  saveToStorage('petData', JSON.stringify(petArr))
   renderTable();
 }
 
