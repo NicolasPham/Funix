@@ -17,8 +17,6 @@ const sterilizedInput = document.getElementById("input-sterilized");
 const healthyBtn = document.getElementById("healthy-btn");
 // const bmiBtn = document.getElementById("bmi-btn");
 
-
-
 const petArrDefault = [
   {
     age: "12",
@@ -67,23 +65,23 @@ const petArrDefault = [
   },
 ];
 
-console.log(localStorage.getItem('petData'));
+console.log(localStorage.getItem("petData"));
 
 // Get inital data
-function getData (key) {
-  if((localStorage.getItem(key)) == null || localStorage.getItem('petData').length <= 2) {
+function getData(key) {
+  if (
+    localStorage.getItem(key) == null ||
+    localStorage.getItem("petData").length <= 2
+  ) {
     //check if there is any value in local storage
     // 2 stand for brackets []
-    return petArrDefault
-  }
-  else return getFromStorage(key) ;
+    return petArrDefault;
+  } else return getFromStorage(key);
 }
 
-const petArr = getData('petData')
-
+const petArr = getData("petData");
 
 // saveToStorage('petData', JSON.stringify(petArrDefault))
-
 
 let healthyCheck = false;
 let healthyPets = petArr;
@@ -128,7 +126,7 @@ function handleSubmit(e) {
     clearInput();
   }
 
-  saveToStorage('petData', JSON.stringify(petArr))
+  saveToStorage("petData", JSON.stringify(petArr));
 }
 
 //validate data
@@ -200,8 +198,8 @@ function renderTable() {
     let pet = renderPets[i];
     //create an Element to render into the table
     const addRow = document.createElement("tr");
-    addRow.classList.add('pet__data')
-  
+    addRow.classList.add("pet__data");
+
     addRow.innerHTML = `<th scope="row">${pet.id}</th>
   <td>${pet.name}</td>
   <td>${pet.age}</td>
@@ -223,6 +221,9 @@ function renderTable() {
   })}>Delete</button>
   </td>`;
     document.getElementById("tbody").appendChild(addRow);
+
+    //save to local Stoage to use other site
+    saveToStorage("petData", JSON.stringify(petArr));
   }
 }
 
@@ -231,7 +232,7 @@ function deletePet(petId) {
   const petIndex = (pet) => pet.id == petId;
   const index = petArr.findIndex(petIndex);
   petArr.splice(index, 1);
-  saveToStorage('petData', JSON.stringify(petArr))
+  saveToStorage("petData", JSON.stringify(petArr));
   renderTable();
 }
 
