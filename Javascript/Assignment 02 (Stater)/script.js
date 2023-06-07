@@ -92,7 +92,7 @@ let isUnique = false;
 renderTable();
 //Assign function ==================================================
 submitBtn.addEventListener("click", handleSubmit);
-healthyBtn.addEventListener("click", handleHealthyPets);
+healthyBtn != null ? healthyBtn.addEventListener("click", handleHealthyPets) : console.log('No healthy Button found');
 // bmiBtn.addEventListener("click", calculateBMI);
 
 //define function ==================================================

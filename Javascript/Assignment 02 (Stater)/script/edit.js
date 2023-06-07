@@ -2,10 +2,11 @@
 
 //import from script
 import { getFromStorage, saveToStorage } from "./storage.js";
+import { renderBreed } from "../script2.js";
 
 const editTableContent = document.getElementById("tbody");
 const editForm = document.getElementById("container-form");
-const editBtn = document.getElementById("submit-btn");
+console.log('Uploaded');
 
 //Get Form Input as Variables
 
@@ -76,15 +77,10 @@ function editPet(index) {
   sterilizedInput.checked = pet.sterilized;
 }
 
-function saveEditPet(e) {
-  e.preventDefault();
-  validate();
-}
-
 //Validate Data Function - copy from Script
 function validate() {
-  if (idInput.value.length <= 0) return alert("ID cannot be empty");
-  else if (nameInput.value.length <= 0) return alert("Name cannot be empty");
+
+  if (nameInput.value.length <= 0) return alert("Name cannot be empty");
   else if (
     ageInput.value.length <= 0 ||
     parseInt(ageInput.value) <= 0 ||
@@ -132,7 +128,11 @@ function handleSubmit(e) {
       date: new Date().toLocaleDateString(),
       bmi: "?",
     };
-    petData[] //stop here =========================================================
+    const pet = petData.filter(p => {
+      p.id == data.id
+      console.log(pet);
+    })
+    console.log(pet);
     renderEditTable();
   } else {
     console.log("Data not succesfully validated");
@@ -145,5 +145,4 @@ function handleSubmit(e) {
 renderEditTable();
 
 //Add EventListener
-editBtn.addEventListener("click", saveEditPet);
 submitBtn.addEventListener('click', handleSubmit)
