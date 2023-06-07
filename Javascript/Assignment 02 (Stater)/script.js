@@ -22,14 +22,14 @@ const healthyBtn = document.getElementById("healthy-btn");
 
 const petArrDefault = [
   {
-    age: "12",
+    age: "3",
     breed: "Tabby",
     color: "#000000",
     date: "5/22/2023",
     dewormed: false,
-    id: "12",
-    length: 12,
-    name: "12",
+    id: "P001",
+    length: 87,
+    name: "Dober Mix",
     sterilized: false,
     type: "Dog",
     vaccinated: false,
@@ -37,14 +37,14 @@ const petArrDefault = [
     bmi: "?",
   },
   {
-    age: "11",
+    age: "4",
     breed: "Aloha",
     color: "#EA906C",
     date: "5/22/2023",
     dewormed: true,
-    id: "11",
-    length: 12,
-    name: "11",
+    id: "P002",
+    length: 65,
+    name: "Charlie Tux",
     sterilized: true,
     type: "Cat",
     vaccinated: true,
@@ -52,14 +52,14 @@ const petArrDefault = [
     bmi: "?",
   },
   {
-    age: "10",
+    age: "3",
     breed: "Aloha",
     color: "#B31312",
     date: "5/22/2023",
     dewormed: false,
-    id: "10",
-    length: 12,
-    name: "11",
+    id: "P003",
+    length: 45,
+    name: "Sweetie Pie",
     sterilized: true,
     type: "Cat",
     vaccinated: false,
@@ -67,7 +67,6 @@ const petArrDefault = [
     bmi: "?",
   },
 ];
-
 
 // Get inital data
 function getData(key) {
@@ -91,8 +90,10 @@ let isUnique = false;
 
 renderTable();
 //Assign function ==================================================
-submitBtn.addEventListener("click", handleSubmit);
-healthyBtn != null ? healthyBtn.addEventListener("click", handleHealthyPets) : console.log('No healthy Button found');
+submitBtn != null ? submitBtn.addEventListener("click", handleSubmit) : "";
+healthyBtn != null
+  ? healthyBtn.addEventListener("click", handleHealthyPets)
+  : "";
 // bmiBtn.addEventListener("click", calculateBMI);
 
 //define function ==================================================
@@ -218,31 +219,32 @@ function renderTable() {
   <td>${pet.bmi}</td>
   <td>${pet.date}</td>
   <td>
-  <button type="button" class="btn btn-danger delete-btn" data-id=${pet.id}>Delete</button>
+  <button type="button" class="btn btn-danger delete-btn" data-id=${
+    pet.id
+  }>Delete</button>
   </td>`;
     document.getElementById("tbody").appendChild(addRow);
 
     //save to local Stoage to use other site
     saveToStorage("petData", JSON.stringify(petArr));
   }
-  deletePet()
+  deletePet();
 }
 
 //delete a pet
 function deletePet() {
-  const allDelBtn = document.querySelectorAll('.delete-btn')
+  const allDelBtn = document.querySelectorAll(".delete-btn");
   allDelBtn.forEach((btn, i) => {
-    btn.addEventListener('click',(e) => {
+    btn.addEventListener("click", (e) => {
       e.preventDefault();
-  
-      petArr.splice(i, 1);
-        saveToStorage("petData", JSON.stringify(petArr));
-        renderTable();
-      // deletePet(btn.dataset.id)
-    })
-  })
-}
 
+      petArr.splice(i, 1);
+      saveToStorage("petData", JSON.stringify(petArr));
+      renderTable();
+      // deletePet(btn.dataset.id)
+    });
+  });
+}
 
 // function deletePet(petId) {
 //   const petIndex = (pet) => pet.id == petId;
@@ -289,4 +291,4 @@ function calculateBMI() {
   renderTable();
 }
 
-export {validate}
+export { validate };
