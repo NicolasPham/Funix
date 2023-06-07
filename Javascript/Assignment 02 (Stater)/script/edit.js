@@ -1,21 +1,27 @@
 "use strict";
 
+//import from script
+import { getFromStorage, saveToStorage } from "./storage.js";
+import { renderBreed } from "../script2.js";
+
 const editTableContent = document.getElementById("tbody");
 const editForm = document.getElementById("container-form");
-const editBtn = document.getElementById("submit-btn");
+console.log('Uploaded');
 
 //Get Form Input as Variables
-const editID = document.getElementById("input-id");
-const editName = document.getElementById("input-name");
-const editAge = document.getElementById("input-age");
-const editType = document.getElementById("input-type");
-const editWeight = document.getElementById("input-weight");
-const editLength = document.getElementById("input-length");
-const editColor = document.getElementById("input-color-1");
-const editBreed = document.getElementById("input-breed");
-const editVaccinated = document.getElementById("input-vaccinated");
-const editDewormed = document.getElementById("input-dewormed");
-const editSterilized = document.getElementById("input-sterilized");
+
+const submitBtn = document.getElementById("submit-btn");
+const idInput = document.getElementById("input-id");
+const nameInput = document.getElementById("input-name");
+const ageInput = document.getElementById("input-age");
+const typeInput = document.getElementById("input-type");
+const weightInput = document.getElementById("input-weight");
+const lengthInput = document.getElementById("input-length");
+const colorInput = document.getElementById("input-color-1");
+const breedInput = document.getElementById("input-breed");
+const vaccinatedInput = document.getElementById("input-vaccinated");
+const dewormedInput = document.getElementById("input-dewormed");
+const sterilizedInput = document.getElementById("input-sterilized");
 
 //get Data from local Storage
 const petData = getFromStorage("petData");
@@ -40,35 +46,103 @@ function renderEditTable() {
   <td><i class="bi bi-${pet.sterilized ? "check" : "x"}-circle-fill"></i></td>
   <td>${pet.date}</td>
   <td>
-  <button type="button" class="btn btn-warning" onClick={editPet(${index})}>Edit</button>
+  <button type="button" class="btn btn-warning edit-btn">Edit</button>
   </td>`;
 
     //add to table
     document.getElementById("tbody").appendChild(addRow);
   });
+
+  const allEditBtn = document.querySelectorAll('.edit-btn')
+  allEditBtn.forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      editPet(i)
+    })
+  })
 }
 
 function editPet(index) {
   const pet = petData[index];
   editForm.classList.remove("hide");
 
-  editID.value = pet.id;
-  editName.value = pet.name;
-  editWeight.value = pet.weight;
-  editLength.value = pet.length;
-  editColor.value = pet.color;
-  editAge.value = pet.age;
-  editType.value = pet.type;
-  editVaccinated.checked = pet.vaccinated;
-  editDewormed.checked = pet.dewormed;
-  editSterilized.checked = pet.sterilized;
+  idInput.value = pet.id;
+  nameInput.value = pet.name;
+  weightInput.value = pet.weight;
+  lengthInput.value = pet.length;
+  colorInput.value = pet.color;
+  ageInput.value = pet.age;
+  typeInput.value = pet.type;
+  vaccinatedInput.checked = pet.vaccinated;
+  dewormedInput.checked = pet.dewormed;
+  sterilizedInput.checked = pet.sterilized;
 }
 
-function saveEditPet(e) {
+//Validate Data Function - copy from Script
+function validate() {
+
+  if (nameInput.value.length <= 0) return alert("Name cannot be empty");
+  else if (
+    ageInput.value.length <= 0 ||
+    parseInt(ageInput.value) <= 0 ||
+    parseInt(ageInput.value) >= 16
+  )
+    return alert("Age must be between 1 and 15");
+  else if (typeInput.value === "Select Type")
+    return alert("Please select type");
+  else if (
+    weightInput.value.length <= 0 ||
+    parseInt(weightInput.value) <= 0 ||
+    parseInt(weightInput.value) >= 16
+  )
+    return alert("Weight must be between 1 and 15");
+  else if (
+    lengthInput.value.length <= 0 ||
+    parseInt(lengthInput.value) <= 0 ||
+    parseInt(lengthInput.value) >= 100
+  )
+    return alert("Length must be between 1 and 100");
+  else if (breedInput.value === "Select Breed")
+    return alert("Please select breed");
+  else return true;
+}
+
+//Submit the form and save data to localStorage
+function handleSubmit(e) {
   e.preventDefault();
+  let data;
+
+  let isValidated = validate();
+  if (isValidated) {
+    data = {
+      id: idInput.value,
+      name: nameInput.value,
+      age: ageInput.value,
+      type: typeInput.value,
+      weight: parseInt(weightInput.value),
+      length: parseInt(lengthInput.value),
+      color: colorInput.value,
+      breed: breedInput.value,
+      vaccinated: vaccinatedInput.checked,
+      dewormed: dewormedInput.checked,
+      sterilized: sterilizedInput.checked,
+      date: new Date().toLocaleDateString(),
+      bmi: "?",
+    };
+    const pet = petData.filter(p => {
+      p.id == data.id
+      console.log(pet);
+    })
+    console.log(pet);
+    renderEditTable();
+  } else {
+    console.log("Data not succesfully validated");
+    renderEditTable();
+  }
+
+  saveToStorage("petData", JSON.stringify(petArr));
 }
 
 renderEditTable();
 
 //Add EventListener
-editBtn.addEventListener("click", saveEditPet);
+submitBtn.addEventListener('click', handleSubmit)

@@ -1,18 +1,21 @@
 "use strict";
 
+//Import from files
+import { getFromStorage, saveToStorage } from "./script/storage.js";
+
 //Variables
-const submitBtn = document.getElementById("submit-btn");
-const idInput = document.getElementById("input-id");
-const nameInput = document.getElementById("input-name");
-const ageInput = document.getElementById("input-age");
-const typeInput = document.getElementById("input-type");
-const weightInput = document.getElementById("input-weight");
-const lengthInput = document.getElementById("input-length");
-const colorInput = document.getElementById("input-color-1");
-const breedInput = document.getElementById("input-breed");
-const vaccinatedInput = document.getElementById("input-vaccinated");
-const dewormedInput = document.getElementById("input-dewormed");
-const sterilizedInput = document.getElementById("input-sterilized");
+export const submitBtn = document.getElementById("submit-btn");
+export const idInput = document.getElementById("input-id");
+export const nameInput = document.getElementById("input-name");
+export const ageInput = document.getElementById("input-age");
+export const typeInput = document.getElementById("input-type");
+export const weightInput = document.getElementById("input-weight");
+export const lengthInput = document.getElementById("input-length");
+export const colorInput = document.getElementById("input-color-1");
+export const breedInput = document.getElementById("input-breed");
+export const vaccinatedInput = document.getElementById("input-vaccinated");
+export const dewormedInput = document.getElementById("input-dewormed");
+export const sterilizedInput = document.getElementById("input-sterilized");
 
 const healthyBtn = document.getElementById("healthy-btn");
 // const bmiBtn = document.getElementById("bmi-btn");
@@ -36,7 +39,7 @@ const petArrDefault = [
   {
     age: "11",
     breed: "Aloha",
-    color: "#000000",
+    color: "#EA906C",
     date: "5/22/2023",
     dewormed: true,
     id: "11",
@@ -51,7 +54,7 @@ const petArrDefault = [
   {
     age: "10",
     breed: "Aloha",
-    color: "#000000",
+    color: "#B31312",
     date: "5/22/2023",
     dewormed: false,
     id: "10",
@@ -65,7 +68,6 @@ const petArrDefault = [
   },
 ];
 
-console.log(localStorage.getItem("petData"));
 
 // Get inital data
 function getData(key) {
@@ -90,7 +92,7 @@ let isUnique = false;
 renderTable();
 //Assign function ==================================================
 submitBtn.addEventListener("click", handleSubmit);
-healthyBtn.addEventListener("click", handleHealthyPets);
+healthyBtn != null ? healthyBtn.addEventListener("click", handleHealthyPets) : console.log('No healthy Button found');
 // bmiBtn.addEventListener("click", calculateBMI);
 
 //define function ==================================================
@@ -99,9 +101,9 @@ function handleSubmit(e) {
   e.preventDefault();
   let data;
 
-  let validatedData = validate();
+  let isValidated = validate();
   uniqueIDValidation(idInput.value);
-  if (validatedData && isUnique) {
+  if (isValidated && isUnique) {
     data = {
       id: idInput.value,
       name: nameInput.value,
@@ -216,25 +218,39 @@ function renderTable() {
   <td>${pet.bmi}</td>
   <td>${pet.date}</td>
   <td>
-  <button type="button" class="btn btn-danger" onClick={deletePet(${
-    pet.id
-  })}>Delete</button>
+  <button type="button" class="btn btn-danger delete-btn" data-id=${pet.id}>Delete</button>
   </td>`;
     document.getElementById("tbody").appendChild(addRow);
 
     //save to local Stoage to use other site
     saveToStorage("petData", JSON.stringify(petArr));
   }
+  deletePet()
 }
 
 //delete a pet
-function deletePet(petId) {
-  const petIndex = (pet) => pet.id == petId;
-  const index = petArr.findIndex(petIndex);
-  petArr.splice(index, 1);
-  saveToStorage("petData", JSON.stringify(petArr));
-  renderTable();
+function deletePet() {
+  const allDelBtn = document.querySelectorAll('.delete-btn')
+  allDelBtn.forEach((btn, i) => {
+    btn.addEventListener('click',(e) => {
+      e.preventDefault();
+  
+      petArr.splice(i, 1);
+        saveToStorage("petData", JSON.stringify(petArr));
+        renderTable();
+      // deletePet(btn.dataset.id)
+    })
+  })
 }
+
+
+// function deletePet(petId) {
+//   const petIndex = (pet) => pet.id == petId;
+//   const index = petArr.findIndex(petIndex);
+//   petArr.splice(index, 1);
+//   saveToStorage("petData", JSON.stringify(petArr));
+//   renderTable();
+// }
 
 //show healthy Pets
 
@@ -272,3 +288,5 @@ function calculateBMI() {
   }
   renderTable();
 }
+
+export {validate}

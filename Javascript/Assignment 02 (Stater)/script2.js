@@ -1,10 +1,14 @@
 "use strick";
 
+//Import from files
+import { saveToStorage, getFromStorage } from "./script/storage.js";
+import * as script from './script.js'
+
 //Sidebar Animation ======================================================
-const sidebarTitle = document.querySelector("#side-title");
+const sidebarTitle = document.querySelector("#sidebar-title");
 const sidebar = document.querySelector("#sidebar");
 
-sidebar.addEventListener("click", function () {
+sidebarTitle.addEventListener("click", function () {
   sidebar.classList.toggle("active");
 });
 
@@ -14,21 +18,21 @@ sidebar.addEventListener("click", function () {
 //Show breed types in index.html ======================================================
 const breedTypes = getFromStorage("breed");
 
-function renderBreed(e) {
+export const renderBreed = function(e) {
   //filter breeds base on type input
   const filterBreed = breedTypes.filter(function (breed) {
     return breed.type === e.target.value;
   });
   //clear all previous options
-  breedInput.innerHTML = "<option>Select Breed</option>";
+  script.breedInput.innerHTML = "<option>Select Breed</option>";
   //add options to breed types
   filterBreed.forEach((type) => {
     //add option
     const addOption = document.createElement("option");
     addOption.textContent = type.breed;
-    breedInput.appendChild(addOption);
+    script.breedInput.appendChild(addOption);
   });
 }
 
 //Add EventListener
-typeInput.addEventListener("change", (e) => renderBreed(e));
+script.typeInput.addEventListener("change", (e) => renderBreed(e));
