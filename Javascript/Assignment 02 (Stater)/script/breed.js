@@ -1,10 +1,12 @@
 "use strict";
 
+//Import from files
+import { saveToStorage, getFromStorage } from "./storage.js";
+
 //Breed management ======================================================
 const inputBreed = document.getElementById("input-breed");
 const typeBreed = document.getElementById("input-type");
 const btnBreed = document.getElementById("submit-btn");
-const tableBody = document.getElementById("tbody");
 let data;
 
 const breedTypes = [
@@ -38,11 +40,14 @@ function renderBreedTable() {
         <td>${b.breed}</td>
         <td>${b.type}</td>
         <td>
-        <button type="button" class="btn btn-danger" onClick={deleteBreed(${i})}>Delete</button>
+        <button type="button" class="btn btn-danger delete-breed">Delete</button>
         </td>`;
 
     document.getElementById("tbody").appendChild(addRow);
-  });
+  }
+  );
+//add delete function to each button
+  deleteBreed()
 }
 
 function submitBreed(e) {
@@ -56,18 +61,29 @@ function submitBreed(e) {
   renderBreedTable();
 }
 
-function deleteBreed(breedIndex) {
-  breedTypes.splice(breedIndex, 1);
+function deleteBreed() {
+  const allDelBtn = document.querySelectorAll('.delete-breed');
+  allDelBtn.forEach((btn, i) => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault()
+      breedTypes.splice(i, 1);
   saveToStorage("breed", JSON.stringify(breedTypes));
   renderBreedTable();
+    })
+  })
 }
 
 //Initial function - call first time loading the page
 function intialCall() {
-  saveToStorage("breed", JSON.stringify(breedTypes));
+  //check if localStorage has no breed, then take the default
+  if (getFromStorage('breed') === null || getFromStorage('breed').length <= 2) {
+    saveToStorage("breed", JSON.stringify(breedTypes));
+  }
   renderBreedTable();
 }
 intialCall();
 
 //Add event Listener
 btnBreed.addEventListener("click", submitBreed);
+
+//${deleteBreed(i)}
