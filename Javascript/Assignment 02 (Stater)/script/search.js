@@ -20,31 +20,38 @@ let result = [];
 function searchID(pet) {
   //Guard clause: no input ID input will apply to all ID
   if (inputID.value.length <= 0) {
-    return true
+    return true;
   }
-    const upperCaseChar = inputID.value.toUpperCase();
+  const upperCaseChar = inputID.value.toUpperCase();
   const lowerCaseChar = inputID.value.toLowerCase();
-  
+
   if (pet.id.includes(upperCaseChar) || pet.id.includes(lowerCaseChar)) {
-    return true
-  } else return false
+    return true;
+  } else return false;
 }
 
 function searchName(pet) {
   //Guard clause: no input name input will apply to all name
-  if (inputName.value.length <= 0) return true
+  if (inputName.value.length <= 0) return true;
 
   const upperCaseChar = inputName.value.toUpperCase();
   const lowerCaseChar = inputName.value.toLowerCase();
-  
+
   if (pet.name.includes(upperCaseChar) || pet.name.includes(lowerCaseChar)) {
-    return true
-  } else return false
+    return true;
+  } else return false;
 }
 
 function searchType(pet) {
-
+  const type = inputType.value;
+  const breed = inputBreed.value;
+  if (type != "Dog" && type != "Cat") return true;
+  else if (type === pet.type && breed === "Select Breed") return true;
+  else if (type === pet.type && breed === pet.breed) return true;
+  else return false;
 }
+
+//==================================================
 //Render Data
 function renderData() {
   document.getElementById("tbody").innerHTML = "";
@@ -73,27 +80,50 @@ function renderData() {
 }
 //We need to render breed data so whenver user choose type, breed will show accordingly
 function renderBreed(e) {
-  const breedData = getFromStorage('breed')
-  const filterBreed = breedData.filter(breed => {
-    return breed.type === e.target.value  })
+  const breedData = getFromStorage("breed");
+  const filterBreed = breedData.filter((breed) => {
+    return breed.type === e.target.value;
+  });
 
-    //clear all privous value
+  //clear all privous value
+  inputBreed.innerHTML = "<option>Select Breed</option>";
+  //add options to breed types
+  filterBreed.forEach((type) => {
+    //add option
+    const addOption = document.createElement("option");
+    addOption.textContent = type.breed;
+    inputBreed.appendChild(addOption);
+  });
 }
 
-// renderBreed()
 //==================================================
 //The total search function
 function searchPet() {
   result = [];
   petData.forEach((pet, i) => {
-    
-    if (searchID(pet) && searchName(pet)) {
+    if (searchID(pet) && searchName(pet) && searchType(pet)) {
       result.push(pet);
     }
-    renderData();
   });
+  //filter by options for vaccinated, dewormed and sterilized
+  if (inputVaccinated.checked) {
+    result = result.filter((pet) => {
+      return pet.vaccinated === true;
+    });
+  }
+  if (inputDewormed.checked) {
+    result = result.filter((pet) => {
+      return pet.dewormed === true;
+    });
+  }
+  if (inputSterilized.checked) {
+    result = result.filter((pet) => {
+      return pet.sterilized === true;
+    });
+  }
+  renderData();
 }
 
 //Add Event Listener
 findBtn.addEventListener("click", searchPet);
-inputType.addEventListener('change', (e) => renderBreed(e))
+inputType.addEventListener("change", (e) => renderBreed(e));

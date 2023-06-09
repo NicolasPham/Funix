@@ -34,7 +34,6 @@ const petArrDefault = [
     type: "Dog",
     vaccinated: false,
     weight: 12,
-    bmi: "?",
   },
   {
     age: "4",
@@ -49,7 +48,6 @@ const petArrDefault = [
     type: "Cat",
     vaccinated: true,
     weight: 12,
-    bmi: "?",
   },
   {
     age: "3",
@@ -64,7 +62,49 @@ const petArrDefault = [
     type: "Cat",
     vaccinated: false,
     weight: 12,
-    bmi: "?",
+  },
+
+  {
+    id: "P004",
+    name: "Dober Mix",
+    age: 3,
+    type: "Dog",
+    weight: 12,
+    length: 87,
+    color: "#e08f8f",
+    breed: "Doberman Pinscher",
+    vaccinated: true,
+    dewormed: true,
+    sterilized: false,
+    date: "5/22/2023",
+  },
+  {
+    id: "P005",
+    name: "Charlie Tux",
+    age: 4,
+    type: "Cat",
+    weight: 4,
+    length: 65,
+    color: "#8cee9c",
+    breed: "Tabby",
+    vaccinated: true,
+    dewormed: false,
+    sterilized: false,
+    date: "5/22/2023",
+  },
+  {
+    id: "P006",
+    name: "Sweetie Pie",
+    age: 3,
+    type: "Dog",
+    weight: 6,
+    length: 45,
+    color: "#ff1414",
+    breed: "Husky",
+    vaccinated: false,
+    dewormed: false,
+    sterilized: true,
+    date: "5/22/2023",
   },
 ];
 
@@ -216,7 +256,6 @@ function renderTable() {
   <td><i class="bi bi-${pet.vaccinated ? "check" : "x"}-circle-fill"></i></td>
   <td><i class="bi bi-${pet.dewormed ? "check" : "x"}-circle-fill"></i></td>
   <td><i class="bi bi-${pet.sterilized ? "check" : "x"}-circle-fill"></i></td>
-  <td>${pet.bmi}</td>
   <td>${pet.date}</td>
   <td>
   <button type="button" class="btn btn-danger delete-btn" data-id=${

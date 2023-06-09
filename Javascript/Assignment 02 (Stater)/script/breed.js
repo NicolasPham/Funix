@@ -26,6 +26,18 @@ const breedTypes = [
     breed: "Mixed Breed",
     type: "Dog",
   },
+  {
+    breed: "Husky",
+    type: "Dog",
+  },
+  {
+    breed: "Doberman Pinscher",
+    type: "Dog",
+  },
+  {
+    breed: "Aloha",
+    type: "Cat",
+  },
 ];
 
 //Render table to show breed
@@ -44,10 +56,9 @@ function renderBreedTable() {
         </td>`;
 
     document.getElementById("tbody").appendChild(addRow);
-  }
-  );
-//add delete function to each button
-  deleteBreed()
+  });
+  //add delete function to each button
+  deleteBreed();
 }
 
 function submitBreed(e) {
@@ -62,21 +73,21 @@ function submitBreed(e) {
 }
 
 function deleteBreed() {
-  const allDelBtn = document.querySelectorAll('.delete-breed');
+  const allDelBtn = document.querySelectorAll(".delete-breed");
   allDelBtn.forEach((btn, i) => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault()
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
       breedTypes.splice(i, 1);
-  saveToStorage("breed", JSON.stringify(breedTypes));
-  renderBreedTable();
-    })
-  })
+      saveToStorage("breed", JSON.stringify(breedTypes));
+      renderBreedTable();
+    });
+  });
 }
 
 //Initial function - call first time loading the page
 function intialCall() {
   //check if localStorage has no breed, then take the default
-  if (getFromStorage('breed') === null || getFromStorage('breed').length <= 2) {
+  if (getFromStorage("breed") === null || getFromStorage("breed").length <= 2) {
     saveToStorage("breed", JSON.stringify(breedTypes));
   }
   renderBreedTable();
