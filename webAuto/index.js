@@ -17,7 +17,9 @@ import puppeteer from "puppeteer";
   await page.goto(loginURL);
 
   //Input userName and password
-  const username = "4379844400";
+  // const username = "4379844400";
+  // const password = "Rapidash16#";
+  const username = "4379844100";
   const password = "Rapidash16#";
   await page.type("#CustomerMobile", username);
   await page.type("#CustomerPassword", password);
